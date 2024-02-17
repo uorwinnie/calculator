@@ -7,15 +7,19 @@
 #ctrl+d--> check EOFError with try-except  -> thank you and exit
 class Calculator:
     def __init__(self):
+        self.main()
+
+    def main(self):
         try:
             self.storage = []
-            self.undo_count = 0
             self.cal = input("Input: ")
             self.calculation()
         except EOFError:
             print()
             self.bye()
             exit("Power Off :|")
+        except SyntaxError:
+            exit("Mother fucker don't mess with fucking calculator dumb ass , bitch , fucking werido go play somewhere fucking kid")
 
     @staticmethod
     def bye():
@@ -33,21 +37,17 @@ class Calculator:
                 self.undo()
             self.cal = f"{self.value}{self.new}"
 
-
-    def clear(self):
+    @classmethod
+    def clear(cls):
             Calculator()
 
 
     def undo(self):
         try:
-            if self.undo_count == 0:
-                self.value = self.storage[-2]
-                self.new = ""
-                self.undo_count = 1
-            else:
-                print("You can't undo twice")
-                self.new = ""
-                self.undo_count = 0
+            self.storage.pop()
+            self.value = self.storage[-1]
+            self.storage.pop()
+            self.new = ""
         except IndexError:
             exit("There is no value to undo!!!!")
 
